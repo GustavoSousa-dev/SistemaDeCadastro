@@ -1,0 +1,166 @@
+﻿<Window x:Class="CadastroClientesWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cadastro de Clientes"
+        Height="400"
+        Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="MediumAquamarine">
+
+    <!-- ======================== -->
+    <!--      RECURSOS GLOBAIS   -->
+    <!-- ======================== -->
+    <Window.Resources>
+
+        <!-- Estilo para cabeçalhos do DataGrid -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+
+        <!-- Estilo base para botões -->
+        <Style x:Key="ModernRoundedButton" TargetType="Button">
+            <Setter Property="Background" Value="ForestGreen"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Green"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#1565C0"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#B0BEC5"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Estilo específico para botão de exclusão -->
+        <Style x:Key="DeleteButtonStyle" BasedOn="{StaticResource ModernRoundedButton}" TargetType="Button">
+            <Setter Property="Background" Value="#F44336"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#D32F2F"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#B71C1C"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <!-- ======================== -->
+    <!--       CONTEÚDO UI       -->
+    <!-- ======================== -->
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Área de entrada e botões -->
+        <StackPanel Orientation="Horizontal"
+                    Margin="0 0 0 10"
+                    VerticalAlignment="Center">
+
+            <!-- Nome -->
+            <Grid Margin="5">
+                <Border CornerRadius="6" Background="White" BorderBrush="Gray" BorderThickness="1">
+                    <Grid>
+                        <TextBlock Text="Digite o Nome"
+                                   Foreground="Gray"
+                                   Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontStyle="Italic"
+                                   IsHitTestVisible="False"
+                                   x:Name="NomePlaceholder"/>
+                        <TextBox x:Name="NomeTextBox"
+                                 Width="150"
+                                 Padding="8,6"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 VerticalContentAlignment="Center"
+                                 FontSize="14"
+                                 TextChanged="NomeTextBox_TextChanged"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Email -->
+            <Grid Margin="5">
+                <Border CornerRadius="6" Background="White" BorderBrush="Gray" BorderThickness="1">
+                    <Grid>
+                        <TextBlock Text="Digite o E-mail"
+                                   Foreground="Gray"
+                                   Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontStyle="Italic"
+                                   IsHitTestVisible="False"
+                                   x:Name="EmailPlaceholder"/>
+                        <TextBox x:Name="EmailTextBox"
+                                 Width="200"
+                                 Padding="8,6"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 VerticalContentAlignment="Center"
+                                 FontSize="14"
+                                 TextChanged="EmailTextBox_TextChanged"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Botões -->
+            <Button Content="Adicionar"
+                    Click="Adicionar_Click"
+                    Margin="5"
+                    Style="{StaticResource ModernRoundedButton}"/>
+
+            <Button Content="Editar"
+                    Click="Editar_Click"
+                    Margin="5"
+                    Style="{StaticResource ModernRoundedButton}"/>
+
+            <Button Content="Excluir"
+                    Click="Excluir_Click"
+                    Margin="5"
+                    Style="{StaticResource DeleteButtonStyle}"/>
+        </StackPanel>
+
+        <!-- Tabela de clientes -->
+        <DataGrid x:Name="ClientesDataGrid"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionChanged="ClientesDataGrid_SelectionChanged"
+                  Background="GhostWhite">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
